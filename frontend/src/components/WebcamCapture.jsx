@@ -1,13 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 
-const VIDEO_CONSTRAINTS = {
-  width: 640,
-  height: 480,
-  facingMode: "user",
-};
-
-export default function WebcamCapture({ isDetecting, onFrame, faces }) {
+export default function WebcamCapture({ isDetecting, onFrame, faces, deviceId }) {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const intervalRef = useRef(null);
@@ -57,13 +51,19 @@ export default function WebcamCapture({ isDetecting, onFrame, faces }) {
     });
   }, [faces, isDetecting]);
 
+  const videoConstraints = {
+    width: 640,
+    height: 480,
+    ...(deviceId ? { deviceId: { exact: deviceId } } : { facingMode: "user" }),
+  };
+
   return (
     <div className="webcam-wrapper">
       <Webcam
         ref={webcamRef}
         audio={false}
         screenshotFormat="image/jpeg"
-        videoConstraints={VIDEO_CONSTRAINTS}
+        videoConstraints={videoConstraints}
         mirrored={true}
       />
       <canvas

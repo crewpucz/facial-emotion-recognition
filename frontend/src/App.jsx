@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import WebcamCapture from "./components/WebcamCapture";
+import CameraSelector from "./components/CameraSelector";
 import EmotionStats from "./components/EmotionStats";
 import EmotionBadge from "./components/EmotionBadge";
 import { useEmotionDetector } from "./hooks/useEmotionDetector";
@@ -8,6 +9,7 @@ import "./styles/App.css";
 export default function App() {
   const { faces, isDetecting, setIsDetecting, error, fps, detect } = useEmotionDetector();
   const [cameraOn, setCameraOn] = useState(false);
+  const [selectedDeviceId, setSelectedDeviceId] = useState("");
 
   const handleFrame = useCallback((imageSrc) => {
     detect(imageSrc);
@@ -44,12 +46,19 @@ export default function App() {
               isDetecting={isDetecting}
               onFrame={handleFrame}
               faces={faces}
+              deviceId={selectedDeviceId}
             />
           ) : (
             <div className="camera-off">
               <span>Camera Off</span>
             </div>
           )}
+
+          {/* Camera Selector */}
+          <CameraSelector
+            selectedDeviceId={selectedDeviceId}
+            onSelect={setSelectedDeviceId}
+          />
 
           {/* Controls */}
           <div className="controls">
