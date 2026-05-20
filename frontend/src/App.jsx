@@ -7,7 +7,7 @@ import "./styles/App.css";
 
 export default function App() {
   const { faces, isDetecting, setIsDetecting, error, fps, detect } = useEmotionDetector();
-  const [cameraOn, setCameraOn] = useState(true);
+  const [cameraOn, setCameraOn] = useState(false);
 
   const handleFrame = useCallback((imageSrc) => {
     detect(imageSrc);
