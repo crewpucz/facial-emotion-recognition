@@ -58,6 +58,7 @@ export default function App() {
           <CameraSelector
             selectedDeviceId={selectedDeviceId}
             onSelect={setSelectedDeviceId}
+            cameraOn={cameraOn}
           />
 
           {/* Controls */}

@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export default function CameraSelector({ selectedDeviceId, onSelect }) {
+export default function CameraSelector({ selectedDeviceId, onSelect, cameraOn }) {
   const [devices, setDevices] = useState([]);
 
   useEffect(() => {
     async function getDevices() {
       try {
-        // Minta permission dulu supaya label muncul
-        await navigator.mediaDevices.getUserMedia({ video: true });
-        const allDevices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = allDevices.filter((d) => d.kind === "videoinput");
+        // Hanya enumerate tanpa getUserMedia dulu
+        let allDevices = await navigator.mediaDevices.enumerateDevices();
+        let videoDevices = allDevices.filter((d) => d.kind === "videoinput");
+
+        // Kalau label kosong (belum ada permission) dan kamera sedang on, minta permission
+        if (cameraOn && videoDevices.length > 0 && !videoDevices[0].label) {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          // Stop stream langsung — kita cuma butuh permission untuk dapat label
+          stream.getTracks().forEach((track) => track.stop());
+
+          allDevices = await navigator.mediaDevices.enumerateDevices();
+          videoDevices = allDevices.filter((d) => d.kind === "videoinput");
+        }
+
         setDevices(videoDevices);
 
         // Auto-select device pertama jika belum ada yang dipilih
@@ -21,7 +31,7 @@ export default function CameraSelector({ selectedDeviceId, onSelect }) {
       }
     }
     getDevices();
-  }, []);
+  }, [cameraOn]);
 
   if (devices.length <= 1) return null;
 

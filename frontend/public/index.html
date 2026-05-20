@@ -7,7 +7,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   </head>
-  <body>
-    <div id="root"></div>
+  <body style="background:#111113;margin:0">
+    <div id="root">
+      <!-- Skeleton loader — hilang otomatis saat React render -->
+      <div style="max-width:1080px;margin:0 auto;padding:48px 24px;font-family:Inter,sans-serif">
+        <div style="margin-bottom:40px">
+          <div style="width:200px;height:24px;background:#1c1c1f;border-radius:6px;margin-bottom:8px"></div>
+          <div style="width:280px;height:14px;background:#1c1c1f;border-radius:4px"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:32px">
+          <div>
+            <div style="aspect-ratio:4/3;background:#18181b;border:1px solid #27272a;border-radius:12px"></div>
+            <div style="display:flex;gap:12px;margin-top:16px">
+              <div style="flex:1;height:44px;background:#1c1c1f;border-radius:8px"></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="height:100px;background:#18181b;border:1px solid #27272a;border-radius:12px"></div>
+            <div style="height:160px;background:#18181b;border:1px dashed #3f3f46;border-radius:12px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
